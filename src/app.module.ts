@@ -6,9 +6,20 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseHandelerInterceptor } from '@/interceptors/response-handeler.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 import { OrderModule } from './order/order.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
-  imports: [DatabaseModule, CustomerModule, AuthModule, OrderModule],
+  imports: [
+    DatabaseModule,
+    CustomerModule, 
+    AuthModule, 
+    OrderModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      typePaths: ['./**/*.graphql'],
+    }),
+  ],
   controllers: [],
   providers: [
     {
