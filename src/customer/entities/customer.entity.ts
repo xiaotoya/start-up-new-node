@@ -1,9 +1,11 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Order } from "@/order/entities/order.entity";
+import { Exclude } from "class-transformer";
 
 @Entity()
 export class Customer {
     @PrimaryGeneratedColumn()
+    @Exclude()
     id: number;
     @Column({type: 'varchar', length: 50})
     name: string;

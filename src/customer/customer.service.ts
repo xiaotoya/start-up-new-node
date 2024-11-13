@@ -30,7 +30,7 @@ export class CustomerService {
 
   async findCustomerWithOrder(id: number) {
     const customer = await this.customerRepo.createQueryBuilder('customer')
-      .innerJoinAndSelect("customer.orders", "order")
+      .leftJoinAndSelect("customer.orders", "order")
       .where("customer.id = :id", { id: id })
       .getOne();
     return customer;
