@@ -28,9 +28,9 @@ const _RequstInterceptors: RequstInterceptors = {
         return retry(axiosInstance, err as AxiosError)
     },
 }
-const useRequest = new AxiosMax({
+const httpRequest = new AxiosMax({
     directlyGetData: true,
-    baseURL: 'http://localhost:8888/',
+    baseURL: 'http://localhost:3000/',
     timeout: 3000,
     interceptors: _RequstInterceptors,
     abortRepetitiveRequest: true,
@@ -39,4 +39,4 @@ const useRequest = new AxiosMax({
         waitTime: 500
     }
 })
-export default useRequest
+export default httpRequest;

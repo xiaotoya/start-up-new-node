@@ -18,7 +18,7 @@ import { HTTP_MSG } from '@/respponse.enum';
         exception instanceof HttpException
           ? exception.getStatus()
           : HttpStatus.INTERNAL_SERVER_ERROR;
-      response.status(status).json(new ResponseDTO(status, HTTP_MSG.FAILURE, 'INTERNAL ERROR'));
+      response.status(status).json(new ResponseDTO(status, HTTP_MSG.FAILURE, exception['message']));
     }
   }
   

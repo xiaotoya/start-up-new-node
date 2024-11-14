@@ -8,6 +8,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { OrderModule } from './order/order.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { HttpTestController } from './http-test/http-test.controller';
 
 @Module({
   imports: [
@@ -15,12 +16,12 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     CustomerModule, 
     AuthModule, 
     OrderModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      typePaths: ['./**/*.graphql'],
-    }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   typePaths: ['./**/*.graphql'],
+    // }),
   ],
-  controllers: [],
+  controllers: [HttpTestController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
