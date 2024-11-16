@@ -1,13 +1,17 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CustomerService } from '@/customer/customer.service';
 import { FilesService } from '@/common/service/file.service';
 import { Response } from 'express';
+import { Log } from '@/common/decorators/logger.decorator';
+import * as fs from 'fs';
 
 
 @Controller('upload')
 export class UploadController {
+  @Log()
+  private logger: Logger;
   constructor(
     private readonly uploadService: UploadService,
     private readonly customerSvc: CustomerService,
@@ -29,18 +33,19 @@ export class UploadController {
     return `${file.filename } has been archieved!` 
   }
   @Get('photo/:id')
-  async download(@Param('id') userId: number, @Res() res: Response) {
+  async download(@Param('id') userId: number, @Res({ passthrough: true }) res: Response) {
     // 查询用户信息
-    const customerInfo = await this.customerSvc.findOne(userId);
     try {
-      if (customerInfo.file) {
+      const customerInfo = await this.customerSvc.findOne(userId);
+      if (customerInfo.file && fs.existsSync(customerInfo.file)) {
         res.download(customerInfo.file);
       } else {
+        this.logger.warn('There is no file: ', customerInfo.file);
         return 'There is no photo in your account!';
       }
     } catch(error) {
-      console.error(error);
-      return 'There is no photo in your account!';
+      this.logger.error('There is no file: ', error);
     }
+    
   }
 }

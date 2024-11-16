@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as util from 'util';
  
@@ -8,8 +8,7 @@ export class FilesService {
  
   async deleteFile(filePath: string): Promise<void> {
     try {
-      const stats = await util.promisify(fs.stat)(filePath);
-      if (stats.isFile) {
+      if (fs.existsSync(filePath)) {
         await this.unlink(filePath);
         console.log(`File deleted successfully: ${filePath}`);
       } else {
