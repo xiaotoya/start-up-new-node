@@ -1,8 +1,9 @@
-import { Controller, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CustomerService } from '@/customer/customer.service';
 import { FilesService } from '@/common/service/file.service';
+import { Response } from 'express';
 
 
 @Controller('upload')
@@ -26,5 +27,20 @@ export class UploadController {
     // delte origin file
     await this.filesService.deleteFile(originFilepath);
     return `${file.filename } has been archieved!` 
+  }
+  @Get('photo/:id')
+  async download(@Param('id') userId: number, @Res() res: Response) {
+    // 查询用户信息
+    const customerInfo = await this.customerSvc.findOne(userId);
+    try {
+      if (customerInfo.file) {
+        res.download(customerInfo.file);
+      } else {
+        return 'There is no photo in your account!';
+      }
+    } catch(error) {
+      console.error(error);
+      return 'There is no photo in your account!';
+    }
   }
 }

@@ -17,7 +17,6 @@ export class FilesService {
       }
     } catch (error) {
       console.error(`Error deleting file: ${filePath}`, error);
-      throw new NotFoundException(error);
     }
   }
 }
