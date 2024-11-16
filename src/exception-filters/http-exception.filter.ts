@@ -11,6 +11,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
     response
       .status(status)
-      .json(new ResponseDTO(status, HTTP_MSG.FAILURE, exception['response'].message));
+      .json(new ResponseDTO(status, HTTP_MSG.FAILURE, exception.message));
   }
 }

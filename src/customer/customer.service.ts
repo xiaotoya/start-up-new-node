@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { createQueryBuilder, DataSource, getManager, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Customer } from './entities/customer.entity';
 import { Order } from '@/order/entities/order.entity';
 
@@ -36,10 +36,12 @@ export class CustomerService {
     return customer;
   }
 
-  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    const customerEntity = this.customerRepo.create(updateCustomerDto);
+  async update(id: number, updateCustomerDto: UpdateCustomerDto | Customer) {
+    if (updateCustomerDto instanceof UpdateCustomerDto) {
+      updateCustomerDto = this.customerRepo.create(updateCustomerDto);
+    }
     await this.dataSource.manager.transaction(async transactionalEntityManager => {
-      await transactionalEntityManager.update(Customer, id, customerEntity)
+      await transactionalEntityManager.update(Customer, id, updateCustomerDto)
     });
     return `This action updates a #${id} customer`;
   }

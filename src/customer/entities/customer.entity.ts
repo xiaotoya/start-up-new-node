@@ -13,6 +13,8 @@ export class Customer {
     gender: 'man' | 'woman';
     @Column({type: 'char', length: 10})
     age: number;
+    @Column({type: 'varchar', length: 255})
+    file: string;
     @OneToMany(() => Order, order => order.customer_id)
     @JoinColumn()
     orders: Order[];

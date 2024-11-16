@@ -9,13 +9,15 @@ import { OrderModule } from './order/order.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { HttpTestController } from './http-test/http-test.controller';
+import { UploadModule } from './upload/upload.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
     DatabaseModule,
     CustomerModule, 
     AuthModule, 
-    OrderModule,
+    OrderModule, UploadModule, CommonModule,
     // GraphQLModule.forRoot<ApolloDriverConfig>({
     //   driver: ApolloDriver,
     //   typePaths: ['./**/*.graphql'],
