@@ -16,6 +16,5 @@ export class Customer {
     @Column({type: 'varchar', length: 255})
     file: string;
     @OneToMany(() => Order, order => order.customer_id)
-    @JoinColumn()
     orders: Order[];
 }
